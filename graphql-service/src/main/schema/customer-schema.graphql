@@ -1,0 +1,19 @@
+type Contact  @java(package:"com.github.bmsantos.graphql.model.customer") {
+    phone: String
+    type: String
+}
+
+type Customer @java(package:"com.github.bmsantos.graphql.model.customer") {
+    id: Long!
+    name: String
+    contact: Contact
+    address: String
+    city: String
+    state: String
+    country: String
+}
+
+type QueryCustomers @java(package:"com.github.bmsantos.graphql.model.customer") {
+    customers: [Customer]
+    customer(id:Long): Customer
+}

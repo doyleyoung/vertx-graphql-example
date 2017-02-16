@@ -1,0 +1,14 @@
+{
+  "rentals": [
+    {
+      "id": 0,
+      "customer": 0,
+      "vehicle": 0
+    },
+    {
+      "id": 1,
+      "customer": 1,
+      "vehicle": 1
+    }
+  ]
+}

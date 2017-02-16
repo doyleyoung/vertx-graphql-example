@@ -1,0 +1,10 @@
+type Rental @java(package:"com.github.bmsantos.graphql.model.rental") {
+    id: Long!
+    customer: Customer
+    vehicle: Vehicle
+}
+
+type QueryRentals @java(package:"com.github.bmsantos.graphql.model.rental") {
+    rentals: [Rental]
+    rental(id: Long): Rental
+}

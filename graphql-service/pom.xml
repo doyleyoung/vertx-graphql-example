@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.github.bmsantos</groupId>
+        <artifactId>vertx-graphql-example</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>graphql-service</artifactId>
+
+    <properties>
+        <main.verticle>com.github.bmsantos.graphql.app.AppVerticle</main.verticle>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.escoffier.vertx</groupId>
+            <artifactId>vertx-completable-future</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.distelli.graphql</groupId>
+            <artifactId>graphql-apigen-deps</artifactId>
+            <version>2.1.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>ST4</artifactId>
+            <version>4.0.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>4.0</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-multibindings</artifactId>
+            <version>4.0</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-unit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.distelli.graphql</groupId>
+                <artifactId>graphql-apigen</artifactId>
+                <version>2.1.1-SNAPSHOT</version>
+                <configuration>
+                    <sourceDirectory>src/main/schema</sourceDirectory>
+                    <outputDirectory>src/main/generated</outputDirectory>
+                    <defaultPackageName>com.github.bmsantos.graphql.model</defaultPackageName>
+                    <guiceModuleName>com.github.bmsantos.graphql.model.guice.GuiceModule</guiceModuleName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>graphql-model</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>asyncapigen</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

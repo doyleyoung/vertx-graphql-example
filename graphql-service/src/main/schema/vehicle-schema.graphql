@@ -1,0 +1,27 @@
+type Vehicle @java(package:"com.github.bmsantos.graphql.model.vehicles") {
+    id: Long!
+    brand: String
+    model: String
+    type: String
+    year: Int
+    mileage: Long
+    extras: [String]
+}
+
+type QueryVehicles @java(package:"com.github.bmsantos.graphql.model.vehicles") {
+    vehicles: [Vehicle]
+    vehicle(id:Long): Vehicle
+}
+
+input InputVehicle @java(package:"com.github.bmsantos.graphql.model.vehicles") {
+    brand: String!
+    model: String!
+    type: String!
+    year: Int!
+    mileage: Long
+    extras: [String]
+}
+
+type MutateVehicles @java(package:"com.github.bmsantos.graphql.model.vehicles") {
+    createVehicle(vehicle:InputVehicle): Vehicle
+}

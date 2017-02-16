@@ -1,0 +1,20 @@
+{
+  "vehicles": [
+    {
+      "id": 0,
+      "brand": "Ford",
+      "model": "Explorer",
+      "type": "SUV",
+      "year": 2013,
+      "mileage": 10000
+    },
+    {
+      "id": 1,
+      "brand": "Toyota",
+      "model": "Corolla",
+      "type": "Car",
+      "year": 2015,
+      "mileage": 15000
+    }
+  ]
+}

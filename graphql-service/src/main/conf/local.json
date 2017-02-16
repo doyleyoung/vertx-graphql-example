@@ -1,0 +1,7 @@
+{
+  "service.http.port": 8080,
+  "service.http.address": "0.0.0.0",
+  "customer.service.url": "http://localhost:8081",
+  "vehicle.service.url": "http://localhost:8082",
+  "rental.service.url": "http://localhost:8083"
+}
