@@ -1,6 +1,6 @@
 # Vertx GraphQL Example
 
-This is an example application to exercise graphql-java-async as well as graphql schema apigen.
+This is an example application to exercise graphql-java-async, graphql-apigen and vertx-dataloader (TBD).
 
 
 ## System Architecture 
