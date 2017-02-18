@@ -33,21 +33,7 @@
             <dependency>
                 <groupId>me.escoffier.vertx</groupId>
                 <artifactId>vertx-completable-future</artifactId>
-                <version>0.1.0</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>io.vertx</groupId>
-                        <artifactId>vertx-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>io.vertx</groupId>
-                        <artifactId>vertx-codegen</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>io.vertx</groupId>
-                        <artifactId>vertx-docgen</artifactId>
-                    </exclusion>
-                </exclusions>
+                <version>0.1.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

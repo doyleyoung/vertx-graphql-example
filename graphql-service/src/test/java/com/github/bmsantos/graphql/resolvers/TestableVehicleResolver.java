@@ -1,67 +1,41 @@
 package com.github.bmsantos.graphql.resolvers;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import com.github.bmsantos.graphql.model.rental.Rental;
 import com.github.bmsantos.graphql.model.vehicles.Vehicle;
-import graphql.schema.DataFetchingEnvironment;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
+import com.github.bmsantos.graphql.utils.VertxCompletableFutureFactory;
+import com.github.bmsantos.graphql.utils.VertxCompletableFutureUtils;
+import me.escoffier.vertx.completablefuture.VertxCompletableFuture;
 
+import static com.github.bmsantos.graphql.utils.VertxCompletableFutureUtils.completedVertxCompletableFuture;
+import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Objects.isNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.stream.Collectors.toList;
 
 public class TestableVehicleResolver implements Vehicle.AsyncResolver {
   private Map<Long, Vehicle> vehicles;
 
-  public TestableVehicleResolver() {
-    this(new HashMap<>());
-  }
-  
   public TestableVehicleResolver(Map<Long, Vehicle> vehicles) {
     this.vehicles = vehicles;
   }
 
   @Override
-  public CompletableFuture<Object> resolve(final DataFetchingEnvironment env) {
-    if (env.containsArgument("id")) { // is query method
-      return processArgumentQuery(env);
+  public CompletableFuture<List<Vehicle>> resolve(final List<Vehicle> unresolved) {
+
+    if (!requireNonNull(unresolved).isEmpty()) {
+      Vehicle vehicle = unresolved.get(0);
+      if (isNull(vehicle.getId())) { // is create new vehicle mutation
+        vehicle = new Vehicle.Builder(vehicle).withId((long) (vehicles.size() + 1)).build();
+        vehicles.put(vehicle.getId(), vehicle);
+        return completedVertxCompletableFuture(newArrayList(vehicle));
+      }
+      return completedVertxCompletableFuture(unresolved.stream().map(u -> vehicles.get(u.getId())).collect(toList())); // is argument query by id
     }
 
-    if (env.containsArgument("vehicle")) { // is mutation
-      return processMutation(env);
-    }
-
-    if (env.getParentType().getName().equals("Rental")) { // is child
-      return processRentalVehicle(env);
-    }
-
-    return completedFuture(vehicles.values()); // is query all
-  }
-
-  private CompletableFuture<Object> processRentalVehicle(final DataFetchingEnvironment env) {
-    Rental rental = env.getSource();
-    final Long id = rental.getCustomer().getId();
-    return completedFuture(vehicles.get(id));
-  }
-
-  private CompletableFuture<Object> processArgumentQuery(final DataFetchingEnvironment env) {
-    final Long id = env.getArgument("id");
-    return completedFuture(vehicles.get(id));
-  }
-
-  private CompletableFuture<Object> processMutation(final DataFetchingEnvironment env) {
-    JsonObject values = new JsonObject((Map<String, Object>) env.getArgument("vehicle"));
-    Vehicle createVehicle = new Vehicle.Builder()
-      .withId(Long.valueOf(vehicles.size() + 1))
-      .withBrand(values.getString("brand"))
-      .withModel(values.getString("model"))
-      .withType(values.getString("type"))
-      .withYear(values.getInteger("year"))
-      .withMileage(values.getLong("mileage", 0L))
-      .withExtras(values.getJsonArray("extras", new JsonArray()).getList())
-      .build();
-    return completedFuture(createVehicle);
+    return completedVertxCompletableFuture(newArrayList(vehicles.values())); // is query all
   }
 }

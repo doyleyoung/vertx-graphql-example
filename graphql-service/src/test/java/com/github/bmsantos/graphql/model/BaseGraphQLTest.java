@@ -8,9 +8,17 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.Consumer;
 
 import com.github.bmsantos.graphql.model.customer.Customer;
+import com.github.bmsantos.graphql.model.customer.QueryCustomers;
 import com.github.bmsantos.graphql.model.guice.GuiceModule;
+import com.github.bmsantos.graphql.model.rental.QueryRentals;
 import com.github.bmsantos.graphql.model.rental.Rental;
+import com.github.bmsantos.graphql.model.vehicles.MutateVehicles;
+import com.github.bmsantos.graphql.model.vehicles.QueryVehicles;
 import com.github.bmsantos.graphql.model.vehicles.Vehicle;
+import com.github.bmsantos.graphql.queries.MutateVehiclesImpl;
+import com.github.bmsantos.graphql.queries.QueryCustomersImpl;
+import com.github.bmsantos.graphql.queries.QueryRentalsImpl;
+import com.github.bmsantos.graphql.queries.QueryVehiclesImpl;
 import com.github.bmsantos.graphql.resolvers.TestableCustomerResolver;
 import com.github.bmsantos.graphql.resolvers.TestableRentalResolver;
 import com.github.bmsantos.graphql.resolvers.TestableVehicleResolver;
@@ -158,8 +166,9 @@ abstract public class BaseGraphQLTest {
       new AbstractModule() {
         @Override
         protected void configure() {
-          bind(Vehicle.AsyncResolver.class)
-            .toInstance(new TestableVehicleResolver(setupVehiclesDS()));
+          bind(Vehicle.AsyncResolver.class).toInstance(new TestableVehicleResolver(setupVehiclesDS()));
+          bind(QueryVehicles.class).toInstance(new QueryVehiclesImpl());
+          bind(MutateVehicles.class).toInstance(new MutateVehiclesImpl());
         }
       });
   }
@@ -170,8 +179,8 @@ abstract public class BaseGraphQLTest {
       new AbstractModule() {
         @Override
         protected void configure() {
-          bind(Customer.AsyncResolver.class)
-            .toInstance(new TestableCustomerResolver(setupCustomersDS()));
+          bind(Customer.AsyncResolver.class).toInstance(new TestableCustomerResolver(setupCustomersDS()));
+          bind(QueryCustomers.class).toInstance(new QueryCustomersImpl());
         }
       });
   }
@@ -182,12 +191,12 @@ abstract public class BaseGraphQLTest {
       new AbstractModule() {
         @Override
         protected void configure() {
-          bind(Customer.AsyncResolver.class)
-            .toInstance(new TestableCustomerResolver(setupCustomersDS()));
-          bind(Vehicle.AsyncResolver.class)
-            .toInstance(new TestableVehicleResolver(setupVehiclesDS()));
-          bind(Rental.AsyncResolver.class)
-            .toInstance(new TestableRentalResolver(setupRentalsDS()));
+          bind(Customer.AsyncResolver.class).toInstance(new TestableCustomerResolver(setupCustomersDS()));
+          bind(Vehicle.AsyncResolver.class).toInstance(new TestableVehicleResolver(setupVehiclesDS()));
+          bind(Rental.AsyncResolver.class).toInstance(new TestableRentalResolver(setupRentalsDS()));
+          bind(QueryCustomers.class).toInstance(new QueryCustomersImpl());
+          bind(QueryVehicles.class).toInstance(new QueryVehiclesImpl());
+          bind(QueryRentals.class).toInstance(new QueryRentalsImpl());
         }
       });
   }

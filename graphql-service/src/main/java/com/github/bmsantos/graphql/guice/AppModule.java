@@ -6,8 +6,14 @@ import com.github.bmsantos.graphql.json.CustomerDeserializer;
 import com.github.bmsantos.graphql.json.RentalDeserializer;
 import com.github.bmsantos.graphql.json.VehicleDeserializer;
 import com.github.bmsantos.graphql.model.customer.Customer;
+import com.github.bmsantos.graphql.model.customer.QueryCustomers;
+import com.github.bmsantos.graphql.model.rental.QueryRentals;
 import com.github.bmsantos.graphql.model.rental.Rental;
+import com.github.bmsantos.graphql.model.vehicles.QueryVehicles;
 import com.github.bmsantos.graphql.model.vehicles.Vehicle;
+import com.github.bmsantos.graphql.queries.QueryCustomersImpl;
+import com.github.bmsantos.graphql.queries.QueryRentalsImpl;
+import com.github.bmsantos.graphql.queries.QueryVehiclesImpl;
 import com.github.bmsantos.graphql.resolvers.CustomerResolver;
 import com.github.bmsantos.graphql.resolvers.RentalResolver;
 import com.github.bmsantos.graphql.resolvers.VehicleResolver;
@@ -22,9 +28,14 @@ public class AppModule extends AbstractModule {
   protected void configure() {
     bind(GraphQLHandler.class);
     bind(RestClient.class).toInstance(new RestClient());
+
     bind(Customer.AsyncResolver.class).toInstance(new CustomerResolver());
     bind(Vehicle.AsyncResolver.class).toInstance(new VehicleResolver());
     bind(Rental.AsyncResolver.class).toInstance(new RentalResolver());
+
+    bind(QueryCustomers.class).toInstance(new QueryCustomersImpl());
+    bind(QueryVehicles.class).toInstance(new QueryVehiclesImpl());
+    bind(QueryRentals.class).toInstance(new QueryRentalsImpl());
 
     // Setup JSon mapper
     bind(ObjectMapper.class).toInstance(mapper);

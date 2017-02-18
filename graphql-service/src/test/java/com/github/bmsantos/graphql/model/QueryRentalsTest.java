@@ -27,7 +27,7 @@ public class QueryRentalsTest extends BaseGraphQLTest {
   @Test
   public void shouldRetrieveAllRentals(TestContext context) throws Exception {
     // Given
-    String query = "{ rentals { id customer { id name } vehicle { id brand }} }";
+    final String query = "{ rentals { id customer { id name } vehicle { id brand }} }";
 
     // When
     CompletionStage<ExecutionResult> future =
@@ -46,7 +46,7 @@ public class QueryRentalsTest extends BaseGraphQLTest {
   @Test
   public void shouldRetrieveRentalById(TestContext context) throws Exception {
     // Given
-    String query = "{ rental(id: 2) { id customer { id name } vehicle { id brand }} }";
+    final String query = "{ rental(id: 2) { id customer { id name } vehicle { id brand }} }";
 
     // When
     CompletionStage<ExecutionResult> future =
