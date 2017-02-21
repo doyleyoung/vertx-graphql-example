@@ -68,7 +68,7 @@
                         <id>graphql-model</id>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>asyncapigen</goal>
+                            <goal>apigen</goal>
                         </goals>
                     </execution>
                 </executions>
