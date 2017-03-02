@@ -2,7 +2,10 @@ package com.github.bmsantos.graphql.utils;
 
 import java.util.concurrent.CompletableFuture;
 
+import io.vertx.core.Future;
 import rx.Observer;
+
+import static java.util.Objects.isNull;
 
 public class CompletableObserver<T> implements Observer<T> {
 
@@ -10,9 +13,17 @@ public class CompletableObserver<T> implements Observer<T> {
     return new CompletableObserver<>(future);
   }
 
-  private CompletableFuture<T> future;
+  public static <T> Observer<T> completableObserver(final Future<T> future) {
+    return new CompletableObserver<>(future);
+  }
 
-  public CompletableObserver(final CompletableFuture<T> future) {
+  private CompletableFuture<T> completableFuture;
+  private Future<T> future;
+
+  public CompletableObserver(final CompletableFuture<T> completableFuture) {
+    this.completableFuture = completableFuture;
+  }
+  public CompletableObserver(final Future<T> future) {
     this.future = future;
   }
 
@@ -23,11 +34,19 @@ public class CompletableObserver<T> implements Observer<T> {
 
   @Override
   public void onError(final Throwable t) {
-    future.completeExceptionally(t);
+    if (isNull(completableFuture)) {
+      future.fail(t);
+    } else {
+      completableFuture.completeExceptionally(t);
+    }
   }
 
   @Override
   public void onNext(final T emission) {
-    future.complete(emission);
+    if (isNull(completableFuture)) {
+      future.complete(emission);
+    } else {
+      completableFuture.complete(emission);
+    }
   }
 }
