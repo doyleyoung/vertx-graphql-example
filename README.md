@@ -1,6 +1,20 @@
-# Vertx GraphQL Example
+# Vert.x GraphQL Example
 
-This is an example application to exercise graphql-java-async, graphql-apigen and vertx-dataloader (TBD).
+![VG](https://raw.githubusercontent.com/bmsantos/vertx-graphql-example/master/vertx-graphql-mic-drop.png) 
+
+When it comes to performance and scalability, Vert.x has always been hard to beat and version 3 just made it much easier to develop and deploy. 
+
+This simple application is used to demonstrate:
+
+- that Java CompletableFuture, Vert.x Futures and RxJava can be easily combined
+- that Vert.x micro-services are easy to develop and deploy through Docker containers
+
+The goal of this application is to exercise graphql-java async (non-blocking) with Vert.x.
+
+In addition it also uses:
+
+- [graphql-apigen](https://github.com/engagingspaces/vertx-dataloader) - to facilitate the graphql schema generation
+- [vertx-dataloader](https://github.com/engagingspaces/vertx-dataloader) - to ensure a consistent API data fetching between the different resources
 
 
 ## System Architecture 
@@ -27,8 +41,7 @@ This is an example application to exercise graphql-java-async, graphql-apigen an
 
  1. ```graphql-java``` - Checkout and build Dmitry's [async branch](https://github.com/dminkovsky/graphql-java/tree/async)
  1. ```graphql-apigen``` - Checkout and build the [async branch](https://github.com/bmsantos/graphql-apigen/tree/async) of my fork of [Distelli/graphql-apigen](https://github.com/bmsantos/graphql-apigen/tree/async)
-
-
+ 
 ## Build:
 
 After building the async branches of both graphql-java and graphql-apigen do:
