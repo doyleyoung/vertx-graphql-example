@@ -13,7 +13,7 @@ The goal of this application is to exercise graphql-java async (non-blocking) wi
 
 In addition it also uses:
 
-- [graphql-apigen](https://github.com/engagingspaces/vertx-dataloader) - to facilitate the graphql schema generation
+- [graphql-apigen](https://github.com/bmsantos/graphql-apigen/tree/async) - to facilitate the graphql schema generation
 - [vertx-dataloader](https://github.com/engagingspaces/vertx-dataloader) - to ensure a consistent API data fetching between the different resources
 
 
