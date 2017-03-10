@@ -1,18 +1,15 @@
-package com.github.bmsantos.graphql.resolvers;
+package com.github.bmsantos.graphql.apigen.resolvers;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import com.github.bmsantos.graphql.model.customer.Customer;
-import com.github.bmsantos.graphql.model.vehicles.Vehicle;
-import me.escoffier.vertx.completablefuture.VertxCompletableFuture;
 
 import static com.github.bmsantos.graphql.utils.VertxCompletableFutureUtils.completedVertxCompletableFuture;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
-import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
 
 public class TestableCustomerResolver implements Customer.AsyncResolver {

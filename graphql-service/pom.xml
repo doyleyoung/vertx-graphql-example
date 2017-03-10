@@ -13,7 +13,7 @@
     <artifactId>graphql-service</artifactId>
 
     <properties>
-        <main.verticle>com.github.bmsantos.graphql.app.AppVerticle</main.verticle>
+        <main.verticle>com.github.bmsantos.graphql.AppVerticle</main.verticle>
     </properties>
 
     <dependencies>

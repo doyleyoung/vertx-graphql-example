@@ -1,16 +1,17 @@
-package com.github.bmsantos.graphql.resolvers;
+package com.github.bmsantos.graphql.apigen.resolvers;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Inject;
 
-import com.github.bmsantos.graphql.model.customer.Customer;
-import com.github.bmsantos.graphql.model.customer.Customer.Unresolved;
+import com.github.bmsantos.graphql.model.rental.Rental;
+import com.github.bmsantos.graphql.model.rental.Rental.Unresolved;
 import com.github.bmsantos.graphql.rest.RestClient;
 import com.google.common.collect.Lists;
 import io.engagingspaces.vertx.dataloader.DataLoader;
 import io.vertx.core.Future;
 import io.vertx.core.logging.Logger;
+import me.escoffier.vertx.completablefuture.VertxCompletableFuture;
 
 import static com.github.bmsantos.graphql.utils.CompletableObserver.completableObserver;
 import static com.github.bmsantos.graphql.utils.VertxCompletableFutureUtils.completedVertxCompletableFuture;
@@ -22,31 +23,34 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static me.escoffier.vertx.completablefuture.VertxCompletableFuture.from;
 
-public class CustomerResolver implements Customer.AsyncResolver {
-  private static final Logger log = getLogger(CustomerResolver.class);
+public class RentalResolver implements Rental.AsyncResolver {
+  private static final Logger log = getLogger(RentalResolver.class);
 
   @Inject
   private RestClient restClient;
 
   @Override
-  public CompletableFuture<List<Customer>> resolve(final List<Customer> unresolved) {
+  public CompletableFuture<List<Rental>> resolve(final List<Rental> unresolved) {
+    log.debug("Fetching all active rentals");
+
     if (!requireNonNull(unresolved).isEmpty()) {
-      final Customer customer = unresolved.get(0);
-      return processRentalCustomer(requireNonNull(customer));
+      final Rental rental = unresolved.get(0);
+      return processArgumentsQuery(requireNonNull(rental));
     }
-    return completedVertxCompletableFuture(null);
+
+    return processQueryAll();
   }
 
-  private CompletableFuture<List<Customer>> processRentalCustomer(final Customer customer) {
-    final DataLoader<Long, List<Customer>> dataLoader = getDataLoader();
+  private CompletableFuture<List<Rental>> processArgumentsQuery(final Rental rental) {
+    final DataLoader<Long, List<Rental>> dataLoader = getDataLoader();
 
-    if (customer.getClass().equals(Unresolved.class)) {
-      final Long id = customer.getId();
-      log.debug("Fetching customer for rental id: " + id);
+    if (rental.getClass().equals(Unresolved.class)) {
+      final Long id = rental.getId();
+      log.debug("Fetching rental with id: " + id);
       try {
         return from(currentContext(), dataLoader.load(id));
       } catch (final Exception e) {
-        log.error("Failed to fetch customer with id: " + id, e);
+        log.error("Failed to fetch rental with id: " + id, e);
       } finally {
         dataLoader.dispatch();
       }
@@ -55,12 +59,19 @@ public class CustomerResolver implements Customer.AsyncResolver {
     return completedVertxCompletableFuture(null);
   }
 
-  private DataLoader<Long, List<Customer>> getDataLoader() {
+  private CompletableFuture<List<Rental>> processQueryAll() {
+    final VertxCompletableFuture<List<Rental>> future = new VertxCompletableFuture<>();
+    restClient.findAllRentals()
+      .subscribe(completableObserver(future));
+    return future;
+  }
+
+  private DataLoader<Long, List<Rental>> getDataLoader() {
     return new DataLoader<>(keys -> {
       List<Future> futures = keys.stream().map(key -> {
 
-        final Future<List<Customer>> future = future();
-        restClient.findCustomerById(key)
+        final Future<List<Rental>> future = future();
+        restClient.findRentalById(key)
           .map(Lists::newArrayList)
           .subscribe(completableObserver(future));
 

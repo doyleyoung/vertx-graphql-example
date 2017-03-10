@@ -1,4 +1,4 @@
-package com.github.bmsantos.graphql.json;
+package com.github.bmsantos.graphql.apigen.json;
 
 import java.io.IOException;
 import java.util.ArrayList;

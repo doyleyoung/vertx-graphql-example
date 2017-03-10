@@ -1,4 +1,4 @@
-package com.github.bmsantos.graphql.app;
+package com.github.bmsantos.graphql;
 
 import javax.inject.Inject;
 
@@ -10,7 +10,6 @@ import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.json.Json;
 import io.vertx.core.logging.Logger;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;

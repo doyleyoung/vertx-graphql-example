@@ -1,4 +1,4 @@
-package com.github.bmsantos.graphql.queries;
+package com.github.bmsantos.graphql.apigen.queries;
 
 import com.github.bmsantos.graphql.model.vehicles.InputVehicle;
 import com.github.bmsantos.graphql.model.vehicles.MutateVehicles;

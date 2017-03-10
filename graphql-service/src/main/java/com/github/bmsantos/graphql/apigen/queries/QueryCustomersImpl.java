@@ -1,4 +1,4 @@
-package com.github.bmsantos.graphql.queries;
+package com.github.bmsantos.graphql.apigen.queries;
 
 import java.util.List;
 
