@@ -2,7 +2,7 @@ package com.github.bmsantos.graphql;
 
 import javax.inject.Inject;
 
-import com.github.bmsantos.graphql.guice.AppModule;
+import com.github.bmsantos.graphql.apigen.guice.AppModule;
 import com.github.bmsantos.graphql.model.guice.GuiceModule;
 import com.github.bmsantos.graphql.rest.GraphQLHandler;
 import io.vertx.core.AbstractVerticle;

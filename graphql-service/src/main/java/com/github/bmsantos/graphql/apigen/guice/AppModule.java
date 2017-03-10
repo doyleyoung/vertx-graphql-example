@@ -1,4 +1,4 @@
-package com.github.bmsantos.graphql.guice;
+package com.github.bmsantos.graphql.apigen.guice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
