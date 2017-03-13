@@ -34,4 +34,9 @@ public class TestableCustomerResolver implements Customer.AsyncResolver {
 
     return completedVertxCompletableFuture(newArrayList(customers.values())); // is query all
   }
+
+  @Override
+  public CompletableFuture<List<Customer>> resolve(final Object context, final List<Customer> list) {
+    return null;
+  }
 }

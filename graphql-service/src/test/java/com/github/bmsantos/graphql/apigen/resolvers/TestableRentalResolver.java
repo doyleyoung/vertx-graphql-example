@@ -34,4 +34,9 @@ public class TestableRentalResolver implements Rental.AsyncResolver {
 
     return completedVertxCompletableFuture(newArrayList(rentals.values())); // is query all
   }
+
+  @Override
+  public CompletableFuture<List<Rental>> resolve(final Object context, final List<Rental> list) {
+    return null;
+  }
 }

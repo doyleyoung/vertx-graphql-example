@@ -34,4 +34,9 @@ public class TestableVehicleResolver implements Vehicle.AsyncResolver {
 
     return completedVertxCompletableFuture(newArrayList(vehicles.values())); // is query all
   }
+
+  @Override
+  public CompletableFuture<List<Vehicle>> resolve(final Object context, final List<Vehicle> list) {
+    return null;
+  }
 }

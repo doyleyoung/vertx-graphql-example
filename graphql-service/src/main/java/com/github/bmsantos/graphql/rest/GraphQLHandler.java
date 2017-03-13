@@ -5,6 +5,7 @@ import java.util.concurrent.CompletionStage;
 
 import javax.inject.Inject;
 
+import com.github.bmsantos.graphql.dataloaders.DataLoaders;
 import com.github.bmsantos.graphql.engine.GraphQLEngine;
 import graphql.ExecutionResult;
 import io.vertx.core.Handler;
@@ -26,6 +27,9 @@ public class GraphQLHandler implements Handler<RoutingContext> {
   @Inject
   private GraphQLEngine graphQL;
 
+  @Inject
+  private RestClient restClient;
+
   @Override
   public void handle(final RoutingContext ctx) {
     final String body = ctx.getBody().toString();
@@ -46,7 +50,7 @@ public class GraphQLHandler implements Handler<RoutingContext> {
         log.debug("Executing Query: " + json);
 
         final CompletionStage<ExecutionResult> future =
-          graphQL.engine().executeAsync(query, operationName, null, variables);
+          graphQL.engine().executeAsync(query, operationName, new DataLoaders(restClient), variables);
 
         future.handle((result, throwable) -> {
           final String doc = Json.encode(result);
