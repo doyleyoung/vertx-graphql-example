@@ -3,8 +3,10 @@ package com.github.bmsantos.graphql;
 import javax.inject.Inject;
 
 import com.github.bmsantos.graphql.apigen.guice.AppModule;
+import com.github.bmsantos.graphql.apigen.resolvers.VehicleResolver;
 import com.github.bmsantos.graphql.model.guice.GuiceModule;
 import com.github.bmsantos.graphql.rest.GraphQLHandler;
+import com.google.inject.Injector;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Context;
 import io.vertx.core.Future;
@@ -32,11 +34,18 @@ public class AppVerticle extends AbstractVerticle {
 
   @Override
   public void start(final Future<Void> startFuture) throws Exception {
-    createInjector(new GuiceModule(), new AppModule()).injectMembers(this);
+    final Injector injector = createInjector(new GuiceModule(), new AppModule());
+    context.put("injector", injector);
+    injector.injectMembers(this);
+
 
     final Router router = router(vertx);
     router.route().handler(BodyHandler.create());
     router.post("/graphql").handler(graphQLHandler);
+
+//    vertx.eventBus()
+//      .consumer("vehicle_publisher")
+//      .handler(VehicleResolver::handleVehicleRequest);
 
     startHttpServer(router).setHandler(startFuture.completer());
   }

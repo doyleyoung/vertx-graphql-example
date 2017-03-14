@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Inject;
 
+import com.github.bmsantos.graphql.dataloaders.DataLoaders;
 import com.github.bmsantos.graphql.model.customer.Customer;
 import com.github.bmsantos.graphql.model.customer.Customer.Unresolved;
 import com.github.bmsantos.graphql.rest.RestClient;
@@ -25,21 +26,21 @@ import static me.escoffier.vertx.completablefuture.VertxCompletableFuture.from;
 public class CustomerResolver implements Customer.AsyncResolver {
   private static final Logger log = getLogger(CustomerResolver.class);
 
-  @Inject
-  private RestClient restClient;
-
   @Override
   public CompletableFuture<List<Customer>> resolve(final List<Customer> unresolved) {
+    return null;
+  }
+
+  @Override
+  public CompletableFuture<List<Customer>> resolve(final Object context, final List<Customer> unresolved) {
     if (!requireNonNull(unresolved).isEmpty()) {
       final Customer customer = unresolved.get(0);
-      return processRentalCustomer(requireNonNull(customer));
+      return processRentalCustomer(((DataLoaders)context).getCustomerDataLoader(), requireNonNull(customer));
     }
     return completedVertxCompletableFuture(null);
   }
 
-  private CompletableFuture<List<Customer>> processRentalCustomer(final Customer customer) {
-    final DataLoader<Long, List<Customer>> dataLoader = getDataLoader();
-
+  private CompletableFuture<List<Customer>> processRentalCustomer(final DataLoader<Long, List<Customer>> dataLoader, final Customer customer) {
     if (customer.getClass().equals(Unresolved.class)) {
       final Long id = customer.getId();
       log.debug("Fetching customer for rental id: " + id);
@@ -51,23 +52,6 @@ public class CustomerResolver implements Customer.AsyncResolver {
         dataLoader.dispatch();
       }
     }
-
     return completedVertxCompletableFuture(null);
   }
-
-  private DataLoader<Long, List<Customer>> getDataLoader() {
-    return new DataLoader<>(keys -> {
-      List<Future> futures = keys.stream().map(key -> {
-
-        final Future<List<Customer>> future = future();
-        restClient.findCustomerById(key)
-          .map(Lists::newArrayList)
-          .subscribe(completableObserver(future));
-
-        return future;
-      }).collect(toList());
-      return all(futures);
-    });
-  }
-
 }
