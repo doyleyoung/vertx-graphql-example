@@ -40,7 +40,7 @@ In addition it also uses:
 ```graphql-java-async``` is not out yet. In order to build this project you need to:
 
  1. ```graphql-java``` - Checkout and build Dmitry's [async branch](https://github.com/dminkovsky/graphql-java/tree/async)
- 1. ```graphql-apigen``` - Checkout and build the [async branch](https://github.com/bmsantos/graphql-apigen/tree/async) of my fork of [Distelli/graphql-apigen](https://github.com/bmsantos/graphql-apigen/tree/async)
+ 1. ```graphql-apigen``` - Checkout and build the [eb_graphql branch](https://github.com/bmsantos/graphql-apigen/tree/eb_graphql) of my fork of [Distelli/graphql-apigen](https://github.com/Distelli/graphql-apigen)
  
 ## Build:
 
