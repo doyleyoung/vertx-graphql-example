@@ -17,7 +17,7 @@
     </modules>
 
     <properties>
-        <vertx.version>3.4.0</vertx.version>
+        <vertx.version>3.4.1</vertx.version>
         <main.verticle/>
     </properties>
 
